@@ -20,3 +20,16 @@ func Create(comment entities.Comment) error {
 	db.Create(comment)
 	return nil
 }
+
+func Recent() ([]entities.Comment, error) {
+	revel.TRACE.Println("Recent")
+	db, err := gorm.Open("mysql", revel.Config.StringDefault("db.uri", ""))
+	if err != nil {
+		revel.ERROR.Println("データベースに接続できませんでした")
+		return nil, err
+	}
+	db.DB()
+	comments := []entities.Comment{}
+	db.Limit(20).Find(&comments)
+	return comments, nil
+}

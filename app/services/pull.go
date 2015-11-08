@@ -11,7 +11,7 @@ import (
 
 // owner/repo の number に該当するプルリクエストからコメントを全て拾ってくる
 // TODO 非同期にリクエストを出す
-func Get(owner, repo string, number int) {
+func GetAsync(owner, repo string, number int) {
 	revel.TRACE.Printf("Get %s/%s/%d", owner, repo, number)
 	// oauth トークン生成
 	token := oauth2.StaticTokenSource(&oauth2.Token{

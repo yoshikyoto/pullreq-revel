@@ -5,6 +5,7 @@
 module:testrunner
 
 POST    /:owner/:repo/:number                   App.GetCommentsAsync
+GET     /recent.json                            App.Recent
 GET     /                                       App.Index
 
 # Ignore favicon requests
