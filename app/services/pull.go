@@ -46,11 +46,15 @@ func getAndInsertPullRequestComments(
 		revel.TRACE.Println(*pullComment.Body)
 		comment := entities.Comment{
 			Id:        *pullComment.ID,
+			Owner:     owner,
+			Repo:      repo,
+			PullId:    number,
 			Body:      *pullComment.Body,
 			UserName:  *pullComment.User.Login,
 			FilePath:  *pullComment.Path,
 			CreatedAt: *pullComment.CreatedAt,
 			UpdatedAt: *pullComment.UpdatedAt,
+			Status:    1,
 		}
 		repos.Create(comment)
 		comments = append(comments, comment)
@@ -76,10 +80,14 @@ func getAndInsertIssueComments(
 	for _, issueComment := range issueComments {
 		comment := entities.Comment{
 			Id:        *issueComment.ID,
+			Owner:     owner,
+			Repo:      repo,
+			PullId:    number,
 			Body:      *issueComment.Body,
 			UserName:  *issueComment.User.Login,
 			CreatedAt: *issueComment.CreatedAt,
 			UpdatedAt: *issueComment.UpdatedAt,
+			Status:    1,
 		}
 		repos.Create(comment)
 		comments = append(comments, comment)

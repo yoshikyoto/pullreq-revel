@@ -21,8 +21,9 @@ func Create(comment entities.Comment) error {
 	return nil
 }
 
-func Recent() ([]entities.Comment, error) {
-	revel.TRACE.Println("Recent")
+// 該当するプルリクエストのデータをデータベースから取得する
+func FindCommentList(owner, repo string, number int) ([]entities.Comment, error) {
+	revel.TRACE.Println("repos.FindCommentLis")
 	db, err := gorm.Open("mysql", revel.Config.StringDefault("db.uri", ""))
 	if err != nil {
 		revel.ERROR.Println("データベースに接続できませんでした")
@@ -30,6 +31,10 @@ func Recent() ([]entities.Comment, error) {
 	}
 	db.DB()
 	comments := []entities.Comment{}
-	db.Limit(20).Find(&comments)
+	db.Where(&entities.Comment{
+		Owner:  owner,
+		Repo:   repo,
+		PullId: number,
+	}).Find(&comments)
 	return comments, nil
 }
